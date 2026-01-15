@@ -1409,3 +1409,126 @@ section {
     text-align: center;
   }
 }
+
+/* ===================================
+   MOBILE COLOR OPTIMIZATION
+   =================================== */
+@media (max-width: 768px) {
+  /* Brighter backgrounds for mobile */
+  body {
+    background: #1a1a2e !important;
+  }
+
+  .hero-section {
+    background: #1a1a2e !important;
+  }
+
+  #navbar {
+    background: rgba(26, 26, 46, 0.95) !important;
+  }
+
+  .about-section {
+    background: #242442 !important;
+  }
+
+  .skills-section {
+    background: #1a1a2e !important;
+  }
+
+  .projects-section {
+    background: #242442 !important;
+  }
+
+  .education-section {
+    background: #1a1a2e !important;
+  }
+
+  .contact-section {
+    background: #242442 !important;
+  }
+
+  /* Brighter text for better visibility */
+  .name-highlight {
+    background: linear-gradient(135deg, #8a9df7 0%, #9f74cd 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+  }
+
+  .subtitle {
+    color: #c8d0e7 !important;
+  }
+
+  .hero-description {
+    color: #a8b2d1 !important;
+  }
+
+  .section-title {
+    background: linear-gradient(135deg, #ffffff 0%, #d0d8f0 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+  }
+
+  .section-description {
+    color: #a8b2d1 !important;
+  }
+
+  /* Brighter cards */
+  .skill-category {
+    background: rgba(45, 45, 68, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .project-card {
+    background: rgba(45, 45, 68, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .timeline-item {
+    background: rgba(45, 45, 68, 0.6) !important;
+  }
+
+  /* Brighter gradient orbs for mobile */
+  .orb-1, .orb-2, .orb-3 {
+    opacity: 0.7 !important;
+    filter: blur(60px) !important;
+  }
+
+  .orb-1 {
+    background: radial-gradient(circle, #8a9df7 0%, transparent 70%) !important;
+  }
+
+  .orb-2 {
+    background: radial-gradient(circle, #9f74cd 0%, transparent 70%) !important;
+  }
+
+  .orb-3 {
+    background: radial-gradient(circle, #f4a8ff 0%, transparent 70%) !important;
+  }
+
+  /* Brighten text elements */
+  .greeting {
+    color: #c8d0e7 !important;
+  }
+
+  .about-text h3 {
+    color: #8a9df7 !important;
+  }
+
+  .about-text p {
+    color: #c8d0e7 !important;
+  }
+
+  .info-value {
+    color: #c8d0e7 !important;
+  }
+
+  .timeline-title {
+    color: #ffffff !important;
+  }
+
+  .timeline-description {
+    color: #c8d0e7 !important;
+  }
+}

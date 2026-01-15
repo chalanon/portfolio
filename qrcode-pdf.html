@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio QR Code - Chalanon Saelim</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .pdf-container {
+            width: 210mm;
+            height: 297mm;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 25px 30px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .qr-section {
+            margin: 15px 0;
+        }
+
+        .qr-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        #qrcodeContainer {
+            display: inline-block;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.15);
+            border: 2px solid #667eea;
+        }
+
+        #qrcodeContainer canvas {
+            display: block;
+        }
+
+        .instructions {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .instructions h3 {
+            font-size: 16px;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .instructions p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .url-box {
+            margin-top: 15px;
+            padding: 12px;
+            background: #e8ecf7;
+            border-radius: 8px;
+            border: 2px dashed #667eea;
+        }
+
+        .url-box label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .url-box .url {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            word-break: break-all;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .info-card {
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            text-align: left;
+        }
+
+        .info-card .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #667eea;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .info-card .value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .footer {
+            padding: 12px 30px;
+            background: #f8f9fa;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+        }
+
+        .footer .highlight {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .pdf-container {
+                width: 100%;
+                height: 100%;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .button-group {
+                display: none;
+            }
+
+            .footer {
+                position: fixed;
+                bottom: 0;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="button-group">
+        <button class="btn btn-primary" onclick="downloadPDF()">
+            📥 ดาวน์โหลด PDF
+        </button>
+        <button class="btn btn-secondary" onclick="printToPDF()">
+            🖨️ Print to PDF
+        </button>
+        <button class="btn btn-secondary" onclick="window.location.href='qrcode-generator.html'">
+            🔙 กลับ
+        </button>
+    </div>
+
+    <div class="pdf-container">
+        <div class="header">
+            <h1>🎓 Portfolio QR Code</h1>
+            <p>Chalanon Saelim (ชลานนท์ แซ่ลิ้ม)</p>
+        </div>
+
+        <div class="content">
+            <div class="qr-section">
+                <div class="qr-title">📱 สแกนเพื่อเข้าชม Portfolio</div>
+                <div id="qrcodeContainer"></div>
+            </div>
+
+            <div class="url-box">
+                <label>🔗 Portfolio URL:</label>
+                <div class="url">https://chalanon.github.io/portfolio/</div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="label">📧 Email</div>
+                    <div class="value">nonkub2546@gmail.com</div>
+                </div>
+                <div class="info-card">
+                    <div class="label">📱 โทรศัพท์</div>
+                    <div class="value">062-503-1065</div>
+                </div>
+                <div class="info-card">
+                    <div class="label">💻 GitHub</div>
+                    <div class="value">github.com/chalanon</div>
+                </div>
+                <div class="info-card">
+                    <div class="label">🎓 การศึกษา</div>
+                    <div class="value">วิทยาลัยอุดมศึกษาพณิชยการ</div>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <h3>📋 วิธีใช้งาน QR Code</h3>
+                <p>1. สแกน QR Code ด้วยแอปกล้องหรือแอปสแกน QR ในมือถือ</p>
+                <p>2. คลิกที่ลิงก์ที่ขึ้นมาเพื่อเข้าชม Portfolio</p>
+                <p>3. สามารถแชร์ลิงก์หรือ QR Code นี้ให้ผู้สนใจได้</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>สร้างเพื่อการสมัครเข้าศึกษาต่อสาขา <span class="highlight">เทคโนโลยีสารสนเทศ</span></p>
+            <p style="margin-top: 5px; font-size: 12px;">© 2026 Chalanon Saelim. Created with ❤️</p>
+        </div>
+    </div>
+
+    <script>
+        // สร้าง QR Code เมื่อหน้าโหลดเสร็จ
+        window.addEventListener('load', function() {
+            const portfolioURL = 'https://chalanon.github.io/portfolio/';
+            
+            // สร้าง QR Code
+            new QRCode(document.getElementById("qrcodeContainer"), {
+                text: portfolioURL,
+                width: 300,
+                height: 300,
+                colorDark: "#667eea",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        });
+
+
+        function downloadPDF() {
+            // แสดงข้อความรอ
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ กำลังสร้าง PDF...';
+            btn.disabled = true;
+
+            // ซ่อนปุ่มก่อนแปลง PDF
+            const buttonGroup = document.querySelector('.button-group');
+            buttonGroup.style.display = 'none';
+
+            // ตั้งค่า html2pdf
+            const element = document.querySelector('.pdf-container');
+            const opt = {
+                margin: 0,
+                filename: 'Portfolio-QRCode-Chalanon-Saelim.pdf',
+                image: { type: 'jpeg', quality: 0.95 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    compress: true
+                }
+            };
+
+            // สร้าง PDF
+            html2pdf().set(opt).from(element).save().then(function() {
+                // แสดงปุ่มกลับมา
+                buttonGroup.style.display = 'flex';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // แจ้งเตือนสำเร็จ
+                alert('✅ ดาวน์โหลด PDF สำเร็จ!\n\nไฟล์: Portfolio-QRCode-Chalanon-Saelim.pdf\nขนาด: ประมาณ 100-200 KB');
+            }).catch(function(error) {
+                // กรณีเกิดข้อผิดพลาด
+                buttonGroup.style.display = 'flex';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                alert('❌ เกิดข้อผิดพลาด กรุณาลองใช้ปุ่ม "Print to PDF" แทน');
+            });
+        }
+
+        function printToPDF() {
+            // แสดงคำแนะนำ
+            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            const isWindows = navigator.platform.toUpperCase().indexOf('WIN') >= 0;
+            
+            let instructions = '';
+            if (isWindows) {
+                instructions = 'กรุณาเลือก:\n\n' +
+                             '1. Destination/Printer: "Microsoft Print to PDF" หรือ "Save as PDF"\n' +
+                             '2. Paper size: A4\n' +
+                             '3. Margins: Default หรือ Minimum\n' +
+                             '4. Scale: 100%\n' +
+                             '5. คลิก "Save" หรือ "Print"\n\n' +
+                             'ไฟล์จะมีขนาดประมาณ 50-200 KB (น้อยกว่า 1 MB)';
+            } else if (isMac) {
+                instructions = 'กรุณาเลือก:\n\n' +
+                             '1. PDF > Save as PDF\n' +
+                             '2. Paper size: A4\n' +
+                             '3. คลิก "Save"\n\n' +
+                             'ไฟล์จะมีขนาดประมาณ 50-200 KB (น้อยกว่า 1 MB)';
+            } else {
+                instructions = 'กรุณาเลือก "Save as PDF" หรือ "Print to PDF"\n' +
+                             'ไฟล์จะมีขนาดประมาณ 50-200 KB (น้อยกว่า 1 MB)';
+            }
+            
+            alert(instructions);
+            
+            // เปิดหน้าต่างพิมพ์
+            window.print();
+        }
+
+        // ทำให้ QR Code ชัดขึ้นเมื่อพิมพ์
+        window.addEventListener('beforeprint', function() {
+            // เพิ่มคุณภาพ QR Code สำหรับการพิมพ์
+            document.body.style.backgroundColor = 'white';
+        });
+
+        window.addEventListener('afterprint', function() {
+            // กลับไปเป็นปกติ
+            document.body.style.backgroundColor = '';
+        });
+    </script>
+</body>
+</html>
