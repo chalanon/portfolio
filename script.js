@@ -229,31 +229,8 @@ if (contactForm) {
 // ===================================
 // DYNAMIC IMAGE LOADING
 // ===================================
-// This section allows you to easily update images
-// Replace the placeholder URLs with your actual images
+// Code removed to prevent overwriting HTML image sources
 
-const imageConfig = {
-  profile: "https://via.placeholder.com/400",
-  about: "https://via.placeholder.com/500",
-  project1: "https://via.placeholder.com/600x400",
-  project2: "https://via.placeholder.com/600x400",
-  project3: "https://via.placeholder.com/600x400",
-};
-
-// Load images
-window.addEventListener("load", () => {
-  const profileImage = document.getElementById("profileImage");
-  const aboutImage = document.getElementById("aboutImage");
-  const project1Image = document.getElementById("project1Image");
-  const project2Image = document.getElementById("project2Image");
-  const project3Image = document.getElementById("project3Image");
-
-  if (profileImage) profileImage.src = imageConfig.profile;
-  if (aboutImage) aboutImage.src = imageConfig.about;
-  if (project1Image) project1Image.src = imageConfig.project1;
-  if (project2Image) project2Image.src = imageConfig.project2;
-  if (project3Image) project3Image.src = imageConfig.project3;
-});
 
 // ===================================
 // PARALLAX EFFECT FOR GRADIENT ORBS
