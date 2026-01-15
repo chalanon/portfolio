@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สร้าง QR Code - Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.875rem;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: white;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+        }
+
+        .color-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .color-input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="color"] {
+            height: 50px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #qrcode {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 2rem 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            min-height: 316px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #qrcode canvas {
+            max-width: 100%;
+            height: auto !important;
+            border-radius: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 1rem;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .color-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        .placeholder {
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="emoji">📱</span>
+        <h1>QR Code Generator</h1>
+        <p class="subtitle">สร้าง QR Code สำหรับ Portfolio ของคุณ</p>
+        
+        <div class="input-group">
+            <label for="urlInput">🔗 URL Portfolio ของคุณ:</label>
+            <input 
+                type="url" 
+                id="urlInput" 
+                placeholder="https://yourusername.github.io/portfolio/"
+                value="https://yourusername.github.io/portfolio/"
+            >
+        </div>
+
+        <div class="input-group">
+            <label>🎨 ปรับแต่งสี:</label>
+            <div class="color-inputs">
+                <div class="color-input">
+                    <label for="colorDark">สีเข้ม (QR):</label>
+                    <input type="color" id="colorDark" value="#667eea">
+                </div>
+                <div class="color-input">
+                    <label for="colorLight">สีพื้นหลัง:</label>
+                    <input type="color" id="colorLight" value="#ffffff">
+                </div>
+            </div>
+        </div>
+
+        <button onclick="generateQR()" style="width: 100%; margin-bottom: 1rem;">
+            ✨ สร้าง QR Code
+        </button>
+
+        <div id="qrcode">
+            <p class="placeholder">กรอก URL แล้วคลิก "สร้าง QR Code"</p>
+        </div>
+
+        <div class="button-group">
+            <button onclick="downloadQR()">
+                ⬇️ ดาวน์โหลด
+            </button>
+            <button class="secondary" onclick="printQR()">
+                🖨️ พิมพ์
+            </button>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 วิธีใช้งาน:</strong>
+            1. ใส่ URL ของ Portfolio ที่ Deploy บน GitHub Pages<br>
+            2. เลือกสีที่ต้องการ<br>
+            3. คลิก "สร้าง QR Code"<br>
+            4. ดาวน์โหลดหรือพิมพ์เพื่อนำไปใช้งาน<br>
+            <br>
+            <strong>📌 Tips:</strong> ทดสอบสแกน QR Code ด้วยมือถือก่อนนำไปใช้จริง!
+        </div>
+    </div>
+
+    <script>
+        let qrcodeInstance = null;
+
+        function generateQR() {
+            const url = document.getElementById('urlInput').value;
+            const colorDark = document.getElementById('colorDark').value;
+            const colorLight = document.getElementById('colorLight').value;
+            const qrcodeContainer = document.getElementById('qrcode');
+
+            // ตรวจสอบ URL
+            if (!url || url === '') {
+                alert('⚠️ กรุณาใส่ URL ของ Portfolio');
+                return;
+            }
+
+            // ตรวจสอบว่า URL ถูกต้อง
+            try {
+                new URL(url);
+            } catch (e) {
+                alert('⚠️ URL ไม่ถูกต้อง กรุณาใส่ URL ที่สมบูรณ์ เช่น https://example.com');
+                return;
+            }
+
+            // ลบ QR Code เก่า
+            qrcodeContainer.innerHTML = '';
+
+            // สร้าง QR Code ใหม่
+            qrcodeInstance = new QRCode(qrcodeContainer, {
+                text: url,
+                width: 256,
+                height: 256,
+                colorDark: colorDark,
+                colorLight: colorLight,
+                correctLevel: QRCode.CorrectLevel.H  // High error correction
+            });
+
+            // แสดงข้อความแจ้งเตือน
+            setTimeout(() => {
+                const canvas = qrcodeContainer.querySelector('canvas');
+                if (canvas) {
+                    console.log('✅ QR Code สร้างสำเร็จ!');
+                }
+            }, 100);
+        }
+
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            
+            if (!canvas) {
+                alert('⚠️ กรุณาสร้าง QR Code ก่อน!');
+                return;
+            }
+
+            // แปลง canvas เป็น image
+            const url = canvas.toDataURL('image/png');
+            
+            // สร้าง link สำหรับดาวน์โหลด
+            const link = document.createElement('a');
+            link.download = 'portfolio-qr-code.png';
+            link.href = url;
+            link.click();
+
+            console.log('✅ ดาวน์โหลด QR Code สำเร็จ!');
+        }
+
+        function printQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            
+            if (!canvas) {
+                alert('⚠️ กรุณาสร้าง QR Code ก่อน!');
+                return;
+            }
+
+            // สร้างหน้าต่างใหม่สำหรับพิมพ์
+            const printWindow = window.open('', '', 'width=600,height=600');
+            const imgUrl = canvas.toDataURL('image/png');
+            const urlInput = document.getElementById('urlInput').value;
+
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Print QR Code</title>
+                    <style>
+                        body {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100vh;
+                            margin: 0;
+                            font-family: Arial, sans-serif;
+                        }
+                        img {
+                            max-width: 400px;
+                            margin: 20px;
+                        }
+                        h2 {
+                            color: #667eea;
+                            margin-bottom: 10px;
+                        }
+                        p {
+                            color: #666;
+                            font-size: 14px;
+                            max-width: 400px;
+                            text-align: center;
+                            word-break: break-all;
+                        }
+                        .scan-text {
+                            margin-top: 20px;
+                            font-weight: bold;
+                            color: #333;
+                        }
+                        @media print {
+                            body {
+                                background: white;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h2>📱 Portfolio QR Code</h2>
+                    <img src="${imgUrl}" alt="QR Code">
+                    <p class="scan-text">สแกนเพื่อเข้าชม Portfolio</p>
+                    <p>${urlInput}</p>
+                </body>
+                </html>
+            `);
+
+            printWindow.document.close();
+            
+            // รอให้รูปโหลดเสร็จแล้วเปิดหน้าต่างพิมพ์
+            setTimeout(() => {
+                printWindow.print();
+            }, 250);
+        }
+
+        // สร้าง QR Code อัตโนมัติเมื่อโหลดหน้าเว็บ (ถ้ามี URL default)
+        window.addEventListener('load', () => {
+            const defaultUrl = document.getElementById('urlInput').value;
+            if (defaultUrl && defaultUrl !== 'https://yourusername.github.io/portfolio/') {
+                generateQR();
+            }
+        });
+
+        // Generate QR Code เมื่อกด Enter ในช่อง URL
+        document.getElementById('urlInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                generateQR();
+            }
+        });
+
+        // Generate QR Code ใหม่เมื่อเปลี่ยนสี
+        document.getElementById('colorDark').addEventListener('change', () => {
+            const url = document.getElementById('urlInput').value;
+            if (url && qrcodeInstance) {
+                generateQR();
+            }
+        });
+
+        document.getElementById('colorLight').addEventListener('change', () => {
+            const url = document.getElementById('urlInput').value;
+            if (url && qrcodeInstance) {
+                generateQR();
+            }
+        });
+    </script>
+</body>
+</html>
